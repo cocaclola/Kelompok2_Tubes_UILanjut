@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kelompok 2 · Portofolio Tim</title>
+<meta name="description" content="Portofolio tim mahasiswa: profil, keahlian, pengalaman, proyek, dan sertifikasi.">
+
+<!-- ================= FONT RESMI ================= -->
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=cabinet-grotesk@400,500,700,800,900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Instrument+Serif:ital@1&display=swap">
+
+<!-- ================= MEMUAT LIBRARY ANIMASI & SCROLL ================= -->
+<!-- GSAP 3.12.5 (Core, CustomEase, Flip) dari cdnjs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<!-- Lenis 1.1.20 (Smooth Scroll) dari jsdelivr -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<!-- Motion 12.4.7 (UI Animation) dari jsdelivr -->
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+
+<style>
+@property --W{syntax:'<length>';inherits:true;initial-value:200px}
+@property --H{syntax:'<length>';inherits:true;initial-value:120px}
+@property --D{syntax:'<length>';inherits:true;initial-value:124px}
+:root{--ink:#1b1813;--or:#ee6a2a;--ord:#c24f19;--ac:#8f3000;--gr:#6b6455;--kr:#d6b88c;--kr2:#c09a68;
+--f1:'Clash Display','Bricolage Grotesque',system-ui,sans-serif;--f2:'Cabinet Grotesk','Bricolage Grotesque',system-ui,sans-serif;--f3:'Instrument Serif',Georgia,serif;
+--nz:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .5 0 0 0 0 .4 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;font:400 15px/1.5 var(--f2);color:var(--ink);background:#f3eedf radial-gradient(120% 100% at 50% 20%,#faf6ea,#f3eedf 55%,#e9e2cd);overflow-x:hidden}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #1b1813;outline-offset:3px;box-shadow:0 0 0 6px #ffd23f}
+
+/* NAV */
+nav{position:sticky;top:0;height:72px;display:flex;align-items:center;gap:16px;justify-content:space-between;padding:0 clamp(14px,3vw,36px);z-index:100;background:rgba(250,246,234,.88);backdrop-filter:blur(10px)}
+.logo{font:700 19px/.9 var(--f1);text-transform:uppercase;width:112px}
+.nl{display:flex;gap:6px}
+.nl button,.mp button{background:none;border:0;padding:8px 12px;font-weight:700;border-bottom:3px solid transparent}
+.nl button.on,.mp button.on{border-bottom-color:var(--or)}
+.cta{background:var(--ink);color:#faf6ea;border:0;border-radius:8px;padding:10px 16px;font-weight:800}
+.cta:hover,.btn:hover{background:var(--ord)}
+.ham{display:none;background:none;border:2px solid var(--ink);border-radius:8px;padding:8px 12px;font-weight:800}
+.mp{display:none;position:fixed;top:72px;left:0;right:0;background:#faf6ea;padding:10px 16px 16px;z-index:99;box-shadow:0 12px 24px rgba(0,0,0,.12)}
+.mp.show{display:grid}.mp button{text-align:left;padding:12px 4px}
+
+/* STAGE */
+#stage{position:relative;height:calc(100svh - 72px - 48px);min-height:560px;perspective:1400px;perspective-origin:50% 35%;overflow:hidden;outline:0}
+.bg{position:absolute;left:0;right:0;top:24%;transform:translateY(-50%);text-align:center;font:700 clamp(48px,12.5vw,210px)/.8 var(--f1);letter-spacing:-.04em;color:rgba(27,24,19,.94);pointer-events:none;user-select:none;padding:0 clamp(20px,4vw,64px);box-sizing:border-box;white-space:nowrap}
+.meta{position:absolute;left:clamp(14px,3vw,36px);top:14px;font:700 11px var(--f2);letter-spacing:.22em;color:var(--gr);z-index:5}.meta b{color:#b8440f}
+.pill{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:200;padding:8px 18px;border-radius:99px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);font:800 12px var(--f2);letter-spacing:.14em;pointer-events:none}
+
+/* KARDUS 3D */
+.box{position:absolute;width:var(--W);height:var(--H);transform-style:preserve-3d;pointer-events:none;transition-property:left,top,--W,--H,--D,transform,opacity;transition-duration:var(--dur,.85s);transition-timing-function:cubic-bezier(.55,0,.25,1)}
+.o{--c:#ee6a2a;--s:#c24f19}.w{--c:#efede6;--s:#c9c5b8}
+.box.pile:hover{translate:0 -10px}
+.box.gone{opacity:0;pointer-events:none}
+.f{position:absolute;left:50%;top:50%;pointer-events:none}
+.pf{background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(0,0,0,.14)),var(--nz),var(--c);background-blend-mode:normal,multiply,normal}
+.front{width:var(--W);height:var(--H);transform:translate(-50%,-50%) translateZ(calc(var(--D) / 2));transform-style:preserve-3d;pointer-events:none}
+.wall{width:var(--W);height:var(--H);transform:translate(-50%,-50%) translateZ(calc(var(--D) / -2));background:linear-gradient(var(--kr),var(--kr2));pointer-events:none}
+.side{width:var(--D);height:var(--H);background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(0,0,0,.16)),var(--nz),var(--s);background-blend-mode:normal,multiply,normal}
+.l{transform:translate(-50%,-50%) translateX(calc(var(--W) / -2)) rotateY(-90deg)}
+.r{transform:translate(-50%,-50%) translateX(calc(var(--W) / 2)) rotateY(90deg)}
+.tp{width:var(--W);height:var(--D);transform:translate(-50%,-50%) translateY(calc(var(--H) / -2)) rotateX(90deg)}
+.stamp{position:absolute;inset:0;display:grid;place-items:center;font:700 calc(var(--D) * .2)/1 var(--f1);text-transform:uppercase;transform:rotate(-8deg);color:var(--ink);opacity:.85;text-align:center}
+.tape{position:absolute;left:0;right:0;top:50%;height:22%;transform:translateY(-50%);background:rgba(240,225,190,.8)}
+.bl{position:absolute;width:13%;height:20%;border:2px solid var(--ink);border-radius:55% 45% 60% 40%}
+.door{position:absolute;top:0;width:50%;height:100%;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.55,0,.25,1)}
+.open .door{transition:transform .75s cubic-bezier(.3,1.3,.5,1)}
+.dl{left:0;transform-origin:left}.dr{right:0;transform-origin:right}
+.open .dl{transform:rotateY(-122deg)}.open .dr{transform:rotateY(122deg)}
+.df,.db{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}
+.db{transform:rotateY(180deg);background:var(--kr)}
+.t{position:absolute;top:50%;left:0;width:200%;transform:translateY(-50%);padding:0 6%;font-weight:900;font-size:calc(var(--H) * .28);line-height:.88;text-transform:uppercase;letter-spacing:-.02em;color:var(--ink)}
+.dr .t{left:-100%}
+.sm{position:absolute;left:9%;top:9%;width:80%;font-weight:800;font-size:calc(var(--H) * .05);line-height:1.2;text-transform:uppercase}
+.tg{position:absolute;right:8%;bottom:8%;font-weight:900;font-size:calc(var(--H) * .07);border:2px solid var(--ink);border-radius:99px;padding:0 .6em}
+.face{position:absolute;right:12%;top:9%;width:22%;aspect-ratio:1;background:radial-gradient(circle at 35% 42%,#000 0 7%,transparent 8%),radial-gradient(circle at 65% 42%,#000 0 7%,transparent 8%),#ffa6d0;border:2px solid var(--ink);border-radius:52% 48% 55% 45%}
+
+.hit{position:absolute;inset:0;z-index:5;background:none;border:0;cursor:pointer;pointer-events:auto!important}
+.open .hit,.inside .hit{display:none!important;pointer-events:none!important}
+.open .front,.inside .front,.open .door,.inside .door{pointer-events:none!important}
+.in{position:absolute;inset:0;overflow-y:auto;padding:5% 6%;font-size:13px;line-height:1.45;opacity:0;transition:opacity .4s .3s;scrollbar-width:thin;pointer-events:none;overscroll-behavior:contain}
+.open .in,.inside .in{opacity:1!important;pointer-events:auto!important}
+.open .in *,.inside .in *{pointer-events:auto}
+
+/* CAPIT */
+.claw{position:absolute;z-index:70;width:0;height:0;pointer-events:none;transition:left var(--cd,.75s) cubic-bezier(.55,0,.25,1),top var(--cd,.75s) cubic-bezier(.55,0,.25,1)}
+.rod{position:absolute;left:-5px;bottom:0;width:10px;height:100vh;background:repeating-linear-gradient(180deg,rgba(0,0,0,.5) 0 1px,transparent 1px 4px),linear-gradient(90deg,#6e737b,#eceef1,#8b9098)}
+.cab{position:absolute;left:9px;bottom:20px;width:11px;height:100vh;background:repeating-linear-gradient(170deg,#ffa6d0 0 3px,#e85b9d 3px 6px)}
+.loop{position:absolute;left:-2px;top:-14px;overflow:visible}
+.hub{position:absolute;left:-20px;top:0;width:40px;height:50px;border-radius:5px 5px 8px 8px;background:linear-gradient(90deg,#2f3237,#f4f5f7 35%,#a3a7ae 70%,#33363b)}
+.hub::before{content:"";position:absolute;left:0;right:0;top:30%;height:14%;background:#1d1f22}
+.hub::after{content:"";position:absolute;left:-5px;right:-5px;bottom:0;height:9px;border-radius:3px;background:linear-gradient(90deg,#2f3237,#f4f5f7 40%,#a3a7ae 75%,#33363b)}
+.pr{position:absolute;left:0;top:46px;height:var(--ph,70px);transform:translateX(-50%);overflow:visible;transition:width .24s cubic-bezier(.55,0,.25,1);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+
+/* UI UMUM DALAM KARDUS */
+.kick{margin:0 0 4px;font:800 10px var(--f2);letter-spacing:.2em;text-transform:uppercase}
+h2{margin:0 0 10px;font:700 26px/1 var(--f1);outline:0}h2 em,h3 em{font:italic 400 1.15em var(--f3);color:var(--ac)}
+h3{margin:12px 0 6px;font:700 16px var(--f1)}
+.in p{margin:0 0 8px}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.btn,.chip,.card{border:2px solid var(--ink);border-radius:8px;background:var(--ink);color:#faf6ea;padding:6px 12px;font-weight:800}
+.chip{background:#efe3c8;color:var(--ink);border-radius:99px;padding:4px 10px;font-size:12px}
+.chip[aria-pressed=true]{background:var(--ink);color:#faf6ea}
+.card{background:#efe3c8;color:var(--ink);text-align:left;font-weight:500;padding:10px;border-radius:12px}
+.card:hover{background:#fff6dd}.card b{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.av{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#ffa6d0;border:2px solid var(--ink);font-weight:900;object-fit:cover}
+.bar{height:8px;border-radius:9px;background:rgba(0,0,0,.15);overflow:hidden}.bar i{display:block;height:100%;background:var(--ink)}
+.tl{border-left:3px solid var(--ink);padding-left:12px;margin:8px 0 8px 4px}
+.tl>div{margin-bottom:10px}.ty{font:800 10px var(--f2);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:var(--ink);color:#faf6ea}
+.ty.kerja{background:#8f3000}.ty.magang{background:#175e4c}.ty.kegiatan{background:#4c3a99}
+.bdg{display:inline-block;background:#fff6dd;border:1.5px solid var(--ink);border-radius:6px;padding:0 6px;font-size:11px;font-weight:700;margin:0 4px 4px 0}
+/* ABOUT MEMBER CARD (MOCKUP STYLE) */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px}
+@media (min-width:768px){.team-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.member-card{background:#efe3c8;border:1.5px solid #a89476;border-radius:16px;padding:16px;text-align:left;display:flex;flex-direction:column;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;color:var(--ink);outline:none;font:inherit}
+.member-card:hover,.member-card:focus-visible{transform:translateY(-3px);box-shadow:0 8px 20px rgba(27,24,19,.12);border-color:var(--ink)}
+.member-photo-box{width:100%;height:140px;border:1.5px dashed #8b8070;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);margin-bottom:12px;color:#7a7265;font-size:14px;overflow:hidden}
+.member-photo-box:has(img){border-style:solid}
+.member-photo-box img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.member-name{font-weight:800;font-size:16px;color:var(--ink);line-height:1.25;margin-bottom:2px}
+.member-role{font-size:13.5px;color:var(--ink);opacity:.85;margin-bottom:12px}
+.member-edu{font-size:12px;color:var(--gr);line-height:1.35;margin-bottom:14px}
+.member-social-circles{display:flex;gap:8px;align-items:center;margin-top:auto}
+.social-circle{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);font-size:11px;transition:background .15s ease,color .15s ease}
+.social-circle:hover{background:var(--ink);color:#faf6ea}
+/* MEMBER DETAIL LAYOUT (MOCKUP STYLE) */
+.detail-breadcrumb{display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;font-weight:800;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--or);margin-bottom:4px;position:static;background:transparent;height:auto;padding:0;backdrop-filter:none}
+.breadcrumb-btn{background:none;border:none;padding:0;color:var(--or);font:inherit;cursor:pointer;text-decoration:none}
+.breadcrumb-btn:hover{color:var(--ord);text-decoration:underline}
+.breadcrumb-sep{color:var(--or);opacity:.7}
+.breadcrumb-current{color:var(--ord)}
+.detail-title{font-size:clamp(26px,3.8vw,40px);font-weight:800;color:var(--ink);margin:0 0 12px;line-height:1.15}
+.detail-title em{color:var(--or);font-style:italic}
+.btn-back-pill{display:inline-flex;align-items:center;padding:6px 14px;border:1.5px solid var(--ink);border-radius:99px;background:#efe3c8;color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;margin-bottom:18px;text-decoration:none;transition:background .15s ease,color .15s ease;font:inherit}
+.btn-back-pill:hover{background:var(--ink);color:#faf6ea}
+.detail-layout{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start}
+@media (max-width:767px){.detail-layout{grid-template-columns:1fr;gap:20px}}
+.detail-left-col{display:flex;flex-direction:column;gap:16px}
+.detail-right-col{display:flex;flex-direction:column;gap:16px}
+.detail-photo-box{width:100%;height:240px;border:1.5px dashed #8b8070;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);color:#7a7265;font-size:15px;overflow:hidden}
+.detail-photo-box:has(img){border-style:solid}
+.detail-photo-box img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.detail-section-title{font-weight:800;font-size:14px;color:var(--ink);margin:0 0 6px}
+.chips-group{display:flex;flex-wrap:wrap;gap:6px}
+.pill-chip{display:inline-flex;align-items:center;padding:4px 10px;border:1.5px solid var(--ink);border-radius:99px;background:#efe3c8;color:var(--ink);font-size:12px;font-weight:700;text-decoration:none;font:inherit}
+.pill-chip.btn-chip{cursor:pointer;transition:background .15s,color .15s}
+.pill-chip.btn-chip:hover{background:var(--ink);color:#faf6ea}
+.pill-chip.muted{opacity:.75;border-style:dashed}
+.member-detail-name{font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--ink);margin:0;line-height:1.2}
+.member-detail-role{font-size:14.5px;color:var(--ink);opacity:.85;margin:0}
+.member-detail-bio{margin:0 0 8px;line-height:1.55}
+.member-detail-edu{font-size:13.5px;color:var(--ink);line-height:1.4}
+.links-group{display:flex;flex-wrap:wrap;gap:8px}
+.link-pill-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:1.5px solid var(--ink);border-radius:99px;background:#efe3c8;color:var(--ink);font-size:12.5px;font-weight:700;text-decoration:none;transition:background .15s ease,color .15s ease}
+.link-pill-btn:hover{background:var(--ink);color:#faf6ea}
+label{display:block;font-weight:800;margin-top:8px}
+input,textarea,select{width:100%;padding:8px;border:2px solid var(--ink);border-radius:8px;background:#fff9e8}
+input[aria-invalid=true],textarea[aria-invalid=true]{border-color:#a30000}
+.er{color:#a30000;font-weight:700;min-height:1em;margin:2px 0 0}
+a{color:var(--ink);font-weight:700}
+.gal{display:flex;gap:8px;overflow-x:auto}.gal img{height:80px;border:2px solid var(--ink);border-radius:8px;cursor:zoom-in}
+dialog{border:3px solid var(--ink);border-radius:12px;padding:6px;max-width:90vw}dialog img{max-width:100%}
+
+/* LAIN */
+#top{position:fixed;right:14px;bottom:62px;z-index:150;display:none;border-radius:99px}#top.show{display:block}
+footer{height:48px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:center;padding:0 12px;font-size:12px;color:var(--gr);overflow:hidden}
+footer button{background:none;border:0;padding:2px;text-decoration:underline;font-weight:700;color:var(--ink)}
+[hidden]{display:none!important}
+
+/* Bagian dalam kardus */
+.side,.tp{transform-style:preserve-3d;backface-visibility:hidden}
+.side>*,.tp>*{backface-visibility:hidden}
+.front,.side,.tp,.bt{pointer-events:none}
+.hit{pointer-events:auto}
+.box.pile{cursor:pointer}
+.in2{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(135deg,#c9a672,#a98258)}
+.tp .in2{background:linear-gradient(#b8946a,#a98258)}
+.bt{width:var(--W);height:var(--D);transform:translate(-50%,-50%) translateY(calc(var(--H) / 2)) rotateX(-90deg);background:linear-gradient(#a98258,#b8946a)}
+#stage{transition:perspective-origin .9s cubic-bezier(.55,0,.25,1)}
+.bg,.pill,.meta{transition:opacity .6s}.in-box .bg,.in-box .pill,.in-box .meta{opacity:0}
+#back{position:absolute;right:16px;top:16px;z-index:150}
+.inside .in{font-size:15px;padding:64px 5% 4%}.inside h2{font-size:clamp(28px,3.4vw,46px)}.inside h3{font-size:20px}.inside .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+@media (max-width:767px){.inside .in{font-size:14px;padding:56px 14px 14px}}
+.rm *{transition:none!important}
+@media (max-width:767px){.nl,.nav-cta{display:none}.ham{display:block}.bg{font-size:clamp(36px,11.5vw,72px);padding:0 16px}footer span:not(:last-child){display:none}.in{font-size:12.5px}}
+@media (hover:none){.box.pile:hover{translate:0 0}}
+
+/* ================= ATURAN KHUSUS MODE MODERN ================= */
+/* Ketika GSAP memegang animasi elemen utama, nonaktifkan transisi CSS yang bentrok */
+.modern-anim .box{transition:none!important}
+.modern-anim .claw{transition:none!important}
+.modern-anim .pr{transition:none!important}
+.modern-anim .door{transition:none!important}
+.modern-anim #stage{transition:none!important}
+.modern-anim .bg,.modern-anim .pill,.modern-anim .meta{transition:none!important}
+.modern-anim .box.pile:hover{translate:0 0!important}
+</style>
+</head>
+<body>
+<nav aria-label="Navigasi utama">
+  <div class="logo" aria-label="Kelompok 2">Kelompok<br>2</div>
+  <div class="nl" id="nl"></div>
+  <button class="cta nav-cta" data-act="go" data-v="5">Hubungi Kami ↗</button>
+  <button class="ham" id="ham" aria-expanded="false" aria-controls="mp">Menu</button>
+</nav>
+<div class="mp" id="mp"></div>
+<main id="stage" tabindex="-1">
+  <p class="meta" aria-hidden="true"></p>
+  <div class="bg" aria-hidden="true">PORTOFOLIO</div>
+  <div class="pill" aria-hidden="true">PILIH KARDUS ↓</div>
+  <button class="btn" id="back" data-act="release" hidden>← Pilih kardus lain</button>
+  <div class="claw" id="claw" aria-hidden="true">
+    <div class="rod"></div><div class="cab"></div>
+    <svg class="loop" width="30" height="30" viewBox="0 0 30 30"><path d="M24 -200V4Q24 24 10 26" fill="none" stroke="#e85b9d" stroke-width="11"/><path d="M24 -200V4Q24 24 10 26" fill="none" stroke="#ffa6d0" stroke-width="3" stroke-dasharray="2 4"/></svg>
+    <div class="hub"></div>
+    <svg class="pr" id="pr" viewBox="0 0 100 60" preserveAspectRatio="none" width="200">
+      <defs><linearGradient id="ch" x1="0" x2="1"><stop offset="0" stop-color="#2f3237"/><stop offset=".4" stop-color="#f4f5f7"/><stop offset=".75" stop-color="#a3a7ae"/><stop offset="1" stop-color="#33363b"/></linearGradient></defs>
+      <g fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+        <path d="M50 0C30 0 6 2 3 22L3 42Q3 56 16 58" stroke="url(#ch)" stroke-width="7" vector-effect="non-scaling-stroke"/>
+        <path d="M50 0C70 0 94 2 97 22L97 42Q97 56 84 58" stroke="url(#ch)" stroke-width="7" vector-effect="non-scaling-stroke"/>
+        <path d="M49 0C30 -1 5 1 2 22" stroke="#fff" stroke-width="1.5" opacity=".8" vector-effect="non-scaling-stroke"/>
+        <path d="M51 0C70 -1 95 1 98 22" stroke="#fff" stroke-width="1.5" opacity=".8" vector-effect="non-scaling-stroke"/>
+      </g>
+    </svg>
+  </div>
+</main>
+<footer id="ft"></footer>
+<button class="btn" id="top" data-act="top">↑ Ke atas</button>
+<dialog id="lb" data-lenis-prevent><img alt="" id="lbi"></dialog>
+<noscript><p style="padding:20px">Situs ini membutuhkan JavaScript. Hubungi kami di kelompok2@example.com.</p></noscript>
+
+<script>
+/* ================= 01 DATA (PERSIS SAMA) ================= */
+const DATA = {
+  team: {
+    name: "Kelompok 2",
+    tagline: "Tiga mahasiswa Sistem Informasi Telkom University Jakarta yang membangun antarmuka yang rapi dan mudah dipakai.",
+    email: "kelompok2@example.com",
+    socials: {
+      LinkedIn: "https://linkedin.com/",
+      GitHub: "https://github.com/",
+      Instagram: "https://instagram.com/"
+    }
+  },
+  members: [
+    {
+      id: "m1",
+      name: "Rama Dwi Prasetya",
+      role: "Web & Full-Stack Developer",
+      photo: "asset/PasFoto_Rama.png",
+      bio: "Mahasiswa aktif semester 7 Program Studi Sistem Informasi di Telkom University Kampus Jakarta. Saya memiliki rasa ingin tahu yang tinggi serta semangat belajar yang kuat terhadap perkembangan teknologi informasi. Dengan sikap disiplin, tanggung jawab, dan kemampuan komunikasi yang baik, saya mampu bekerja secara efektif, baik dalam tim maupun secara mandiri. Saya juga memiliki ketertarikan besar dalam pengembangan sistem berbasis web, analisis data, serta manajemen proyek teknologi informasi. Selain itu, saya berkomitmen untuk terus mengasah keterampilan teknis, memperluas wawasan, dan meningkatkan kemampuan berpikir kritis guna mempersiapkan diri menghadapi tantangan dunia kerja yang dinamis dan kompetitif di era digital.",
+      education: "S1 Sistem Informasi (102042300142), Telkom University Kampus Jakarta",
+      links: { linkedin: "https://www.linkedin.com/in/ramadwiprstya/", github: "https://github.com/ramadwiprstya" },
+      skills: {
+        technical: [{ name: "Laravel/PHP", level: 85 }, { name: "MySQL", level: 85 }, { name: "Full-Stack Dev", level: 88 }, { name: "UI/UX Design", level: 80 }],
+        soft: [{ name: "Problem Solving", level: 88 }, { name: "Teamwork", level: 85 }, { name: "Critical Thinking", level: 82 }]
+      },
+      experience: [
+        { type: "magang", period: "Jun-Agu 2026", role: "Full-Stack Developer Intern", institution: "PT Imeco Inter Saran", description: "Pengembangan website commercial property SBU Property and Infrastructure." },
+        { type: "magang", period: "Feb-Mei 2022", role: "UI/UX Designer", institution: "PT Telkom DCS", description: "Merancang antarmuka web intuitif dan standarisasi komponen desain." }
+      ]
+    },
+    {
+      id: "m2",
+      name: "Flora Syifa",
+      role: "Front-end Developer & UI/UX Designer",
+      photo: "",
+      bio: "Mahasiswi Sistem Informasi Telkom University Jakarta yang berfokus pada perancangan antarmuka, pengalaman pengguna, dan pengembangan front-end.",
+      education: "S1 Sistem Informasi (102042300122), Telkom University Kampus Jakarta",
+      links: { linkedin: "https://linkedin.com/", github: "https://github.com/florasyifa9", instagram: "https://instagram.com/" },
+      skills: {
+        technical: [],
+        soft: [{ name: "Komunikasi", level: 88 }, { name: "Kreativitas", level: 85 }, { name: "Manajemen Waktu", level: 82 }]
+      },
+      experience: []
+    },
+    {
+      id: "m3",
+      name: "Alvian Yusuf Nawawi",
+      role: "Back-end Developer & System Analyst",
+      photo: "",
+      bio: "Mahasiswa Sistem Informasi Telkom University Jakarta yang berfokus pada arsitektur sistem backend, perancangan basis data, dan integrasi API.",
+      education: "S1 Sistem Informasi (102042300129), Telkom University Kampus Jakarta",
+      links: { linkedin: "https://linkedin.com/", github: "https://github.com/sickpytheprodigy", instagram: "https://instagram.com/" },
+      skills: {
+        technical: [],
+        soft: [{ name: "Pemecahan Masalah", level: 88 }, { name: "Kerja Sama", level: 85 }, { name: "Analisis Sistem", level: 84 }]
+      },
+      experience: []
+    }
+  ],
+  projects: [
+    { id: "p1", title: "Website Absensi Sekolah", category: "Web Development", description: "Sistem informasi absensi sekolah berbasis web yang dirancang untuk mengotomatisasi pencatatan kehadiran siswa dan staf pengajar menggunakan Laravel, PHP, dan MySQL.", techStack: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"], members: [{ id: "m1", role: "Full-Stack Development" }], gallery: [{ src: "", alt: "Website Absensi Sekolah" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p2", title: "FitTrack", category: "Web Development", description: "Aplikasi web interaktif untuk pemantauan nutrisi dan kalori harian yang memudahkan pengguna dalam mengontrol asupan gizi dan melacak progres kebugaran.", techStack: ["PHP", "MySQL", "JavaScript", "CSS3", "Chart.js"], members: [{ id: "m1", role: "Web Application Developer" }], gallery: [{ src: "", alt: "FitTrack" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p3", title: "Website Company Profile — Beltway Office Park", category: "Web Development", description: "Website company profile profesional untuk kawasan properti komersial Beltway Office Park di bawah naungan PT Imeco Inter Saran (SBU Property and Infrastructure).", techStack: ["HTML5", "CSS3", "JavaScript", "PHP"], members: [{ id: "m1", role: "Website Development" }], gallery: [{ src: "", alt: "Beltway Office Park" }], demoUrl: "https://beltwayofficepark.com/", repoUrl: "#" },
+    { id: "p4", title: "Aplikasi To-Do List", category: "Web Development", description: "Aplikasi pengelolaan tugas harian yang intuitif, cepat, dan ringan dengan penyimpanan data lokal di browser menggunakan LocalStorage API.", techStack: ["JavaScript", "LocalStorage API", "HTML5", "CSS3"], members: [{ id: "m1", role: "Web Application Developer" }], gallery: [{ src: "", alt: "Aplikasi To-Do List" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p5", title: "Aplikasi Pencatatan Keuangan", category: "Web Development", description: "Aplikasi web pencatatan keuangan pribadi dan usaha mikro untuk mencatat aliran transaksi kas masuk (income) dan kas keluar (expense) secara transparan.", techStack: ["PHP", "MySQL", "JavaScript", "CSS3"], members: [{ id: "m1", role: "Web Application Developer" }], gallery: [{ src: "", alt: "Aplikasi Pencatatan Keuangan" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p6", title: "Sistem Layanan Pengaduan Sekolah", category: "Web Development", description: "Sistem informasi layanan pengaduan dan aspirasi sekolah yang dibangun untuk memfasilitasi komunikasi transparan dan akuntabel antara siswa, wali, dan pihak sekolah.", techStack: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"], members: [{ id: "m1", role: "Information System Developer" }], gallery: [{ src: "", alt: "Sistem Layanan Pengaduan Sekolah" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p7", title: "Sistem Monitoring Kekeringan di Gunungkidul", category: "Web Development", description: "Sistem informasi pemantauan kondisi kekeringan regional di Kabupaten Gunungkidul untuk pemetaan titik rawan dan koordinasi distribusi bantuan air bersih.", techStack: ["PHP", "MySQL", "JavaScript", "Web GIS", "CSS3"], members: [{ id: "m1", role: "Information System Developer" }], gallery: [{ src: "", alt: "Monitoring Kekeringan Gunungkidul" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p8", title: "Business Process Analyst — PT Pegadaian", category: "Business Analysis", description: "Proyek analisis proses bisnis komprehensif pada layanan operasional PT Pegadaian dengan investigasi alur AS-IS, Root Cause Analysis, dan pemodelan TO-BE BPMN 2.0.", techStack: ["BPMN 2.0", "Bizagi", "Draw.io", "Process Modeling", "Gap Analysis"], members: [{ id: "m1", role: "Business Process Analyst" }], gallery: [{ src: "", alt: "BPMN PT Pegadaian" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p9", title: "UI/UX Designer — PT Pegadaian", category: "UI/UX Design", description: "Studi kasus perancangan antarmuka dan pengalaman pengguna (UI/UX) untuk aplikasi digital PT Pegadaian, mencakup user journey, wireframing, dan prototipe Figma.", techStack: ["Figma", "UI/UX Research", "Wireframing", "Interactive Prototyping", "Design System"], members: [{ id: "m1", role: "UI/UX Designer" }], gallery: [{ src: "", alt: "UI/UX PT Pegadaian" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p10", title: "Enterprise Architecture — PT Graha Kreatif", category: "Enterprise Architecture", description: "Perancangan blueprint Enterprise Architecture untuk PT Graha Kreatif mengadopsi TOGAF ADM, menyelaraskan tujuan strategis bisnis dengan arsitektur TI.", techStack: ["TOGAF ADM", "Enterprise Architecture", "ArchiMate", "Business-IT Alignment"], members: [{ id: "m1", role: "Enterprise Architecture Analyst" }], gallery: [{ src: "", alt: "TOGAF PT Graha Kreatif" }], demoUrl: "#", repoUrl: "#" },
+    { id: "p11", title: "Data Analyst — Dataset Toko Retail", category: "Data Analytics", description: "Analisis data transaksi penjualan pada toko ritel untuk menggali pola belanja pelanggan, mengidentifikasi produk unggulan, dan memvisualisasikan tren penjualan.", techStack: ["Python", "Pandas", "SQL", "Data Cleaning", "Data Visualization"], members: [{ id: "m1", role: "Data Analyst" }], gallery: [{ src: "", alt: "Data Analyst Retail Dashboard" }], demoUrl: "#", repoUrl: "#" }
+  ],
+  certificates: [
+    { memberId: "m1", title: "Kualifikasi II Rekayasa Perangkat Lunak", issuer: "BNSP (Badan Nasional Sertifikasi Profesi)", year: 2023, verifyUrl: "https://ramadwiprstya.vercel.app/" }
+  ]
+};
+
+const T = DATA.team, M = DATA.members, P = DATA.projects;
+const uniqTech = [...new Set(P.flatMap(p => p.techStack))];
+const STATS = [[P.length, 'Proyek'], [M.length, 'Anggota'], [uniqTech.length, 'Teknologi']];
+
+/* ================= 02 KARDUS & STATE ================= */
+const BX = [
+  ['home', 'BERANDA|', 'o', 'TIM', [.48, .66, -14, -24, 6], 'Beranda'],
+  ['about', 'TENTANG|KAMI', 'w', '02', [.13, .86, -16, 28, 16], 'Tentang'],
+  ['skills', 'KEAH|LIAN', 'o', '03', [.36, .90, -12, -20, -10], 'Keahlian'],
+  ['exp', 'PENGA|LAMAN', 'w', '04', [.60, .88, -14, 24, 12], 'Pengalaman'],
+  ['port', 'PORTO|FOLIO', 'o', '05', [.86, .86, -16, -30, -14], 'Portofolio'],
+  ['contact', 'KONTAK|', 'w', '06', [.25, .68, -14, 30, -12], 'Kontak'],
+  ['team', 'TIM|KAMI', 'o', '07', [.73, .68, -14, -26, 16], 'Tim Kami']
+];
+
+const S = { sm: 'all', sc: 'all', em: 'all', et: 'all', pc: 'all', pt: 'all', pm: 'all', ab: null, pd: null };
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+if (RM) document.documentElement.classList.add('rm');
+
+const st = $('#stage'), cl = $('#claw'), pr = $('#pr');
+const mem = id => M.find(m => m.id === id);
+const av = (m, s = 44) => m.photo ? `<img class="av" src="${esc(m.photo)}" alt="${esc(m.name)}" width="${s}" height="${s}" loading="lazy">` : `<span class="av" style="width:${s}px;height:${s}px" aria-hidden="true">${m.name.split(' ').map(w => w[0]).slice(0, 2).join('')}</span>`;
+const ph = t => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="150"><rect width="100%" height="100%" fill="#efe3c8"/><text x="120" y="75" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1b1813">Gambar contoh: ${t}</text></svg>`);
+const H = (k, a, b, c = '') => `<p class="kick">${k}</p><h2 tabindex="-1">${a} <em>${b}</em>${c}</h2>`;
+const chips = (g, opts, cur) => `<div class="row" role="group" aria-label="Filter">${opts.map(([v, l]) => `<button class="chip" data-act="f" data-k="${g}" data-v="${esc(v)}" aria-pressed="${cur === v}">${esc(l)}</button>`).join('')}</div>`;
+const sel = (g, l, opts, cur) => `<label>${l}<select data-act="fs" data-k="${g}" data-lenis-prevent>${opts.map(([v, t]) => `<option value="${esc(v)}"${cur === v ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select></label>`;
+const nm = T.name.split(' '), NA = nm.slice(0, -1).join(' '), NB = nm.at(-1);
+const mOpts = [['all', 'Semua'], ...M.map(m => [m.id, m.name.split(' ')[0]])];
+const back = `<button class="btn" data-act="back">← Kembali</button>`;
+
+/* ================= DETEKSI LIBRARY MODERN & CADANGAN ================= */
+const HAS_GSAP = typeof window.gsap !== 'undefined' && typeof window.CustomEase !== 'undefined' && typeof window.Flip !== 'undefined';
+const HAS_MOTION = typeof window.Motion !== 'undefined' && typeof window.Motion.animate === 'function';
+const HAS_LENIS = typeof window.Lenis !== 'undefined';
+const CAN_USE_MODERN = HAS_GSAP && HAS_MOTION && HAS_LENIS;
+
+if (CAN_USE_MODERN) {
+  document.documentElement.classList.add('modern-anim');
+  gsap.registerPlugin(CustomEase, Flip);
+  CustomEase.create('claw', '0.55, 0, 0.25, 1');
+}
+
+/* Helper animasi Motion dengan cadangan saat reduced-motion aktif */
+function motionAnimate(target, keyframes, options = {}) {
+  if (RM || !HAS_MOTION) {
+    if (options.onUpdate && typeof keyframes === 'object') {
+      const finalVal = Array.isArray(keyframes) ? keyframes[keyframes.length - 1] : keyframes;
+      options.onUpdate(finalVal);
+    }
+    return Promise.resolve();
+  }
+  return Motion.animate(target, keyframes, options);
+}
+
+/* ================= 07 ISI TIAP KARDUS ================= */
+const VIEW = {
+  home: () => `${H('Selamat datang', `Halo, kami ${NA}`, NB, '.')}<p>${esc(T.tagline)}</p>
+   <div class="row"><button class="btn" data-act="go" data-v="4">Lihat Portofolio</button><button class="btn" data-act="go" data-v="5">Hubungi Kami</button></div>
+   <div class="row">${M.map(m => `<button class="chip" data-act="mem" data-v="${m.id}">${esc(m.name.split(' ')[0])}</button>`).join('')}</div>
+   <div class="row">${STATS.map(([n, l]) => `<div class="card" style="text-align:center"><b class="cu" data-n="${n}" style="font:700 24px var(--f1)">${n}</b>${l}</div>`).join('')}</div>`,
+
+  about: () => {
+    if (S.ab) {
+      const m = mem(S.ab), ps = P.filter(p => p.members.some(x => x.id === m.id));
+      return `<div class="member-detail-container">
+        <div class="detail-breadcrumb" role="navigation" aria-label="Breadcrumb">
+          <button type="button" class="breadcrumb-btn" data-act="mem" data-v="">02 / ABOUT</button>
+          <span class="breadcrumb-sep">·</span>
+          <span class="breadcrumb-current">DETAIL ANGGOTA</span>
+        </div>
+        <h2 class="detail-title" tabindex="-1">Detail <em>anggota</em>.</h2>
+        <button class="btn-back-pill" type="button" data-act="mem" data-v="">← Kembali</button>
+        <div class="detail-layout">
+          <div class="detail-left-col">
+            <div class="detail-photo-box">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}" loading="lazy">` : `<span>foto</span>`}</div>
+            <div class="detail-section">
+              <div class="detail-section-title">Ringkasan skill</div>
+              <div class="chips-group">${m.skills.technical.length > 0 ? m.skills.technical.map(s => `<span class="pill-chip">[${esc(s.name)}]</span>`).join('') : '<span class="pill-chip muted">[Belum ada skill]</span>'}</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-section-title">Ringkasan proyek</div>
+              <div class="chips-group">${ps.length > 0 ? ps.map(p => `<button type="button" class="pill-chip btn-chip" data-act="proj" data-v="${p.id}" title="Buka proyek ${esc(p.title)}">[${esc(p.title)}]</button>`).join('') : '<span class="pill-chip muted">[Belum ada proyek]</span>'}</div>
+            </div>
+          </div>
+          <div class="detail-right-col">
+            <h3 class="member-detail-name">[${esc(m.name)}]</h3>
+            <div class="member-detail-role">[${esc(m.role)}]</div>
+            <div class="detail-section">
+              <div class="detail-section-title">Bio lengkap</div>
+              <p class="member-detail-bio">${esc(m.bio)}</p>
+            </div>
+            <div class="detail-section">
+              <div class="detail-section-title">Pendidikan</div>
+              <div class="member-detail-edu">[${esc(m.education)}]</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-section-title">Tautan</div>
+              <div class="links-group">
+                ${m.links.linkedin ? `<a href="${esc(m.links.linkedin)}" target="_blank" rel="noopener noreferrer" class="link-pill-btn">LinkedIn ↗</a>` : ''}
+                ${m.links.github ? `<a href="${esc(m.links.github)}" target="_blank" rel="noopener noreferrer" class="link-pill-btn">GitHub ↗</a>` : ''}
+                ${m.links.instagram || m.links.website ? `<a href="${esc(m.links.instagram || m.links.website)}" target="_blank" rel="noopener noreferrer" class="link-pill-btn">Instagram ↗</a>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+    return `<h2 tabindex="-1" style="margin-bottom:4px">Kenali <em>timnya</em>.</h2>
+    <p style="color:var(--gr);margin:0 0 16px;font-size:14px">Klik kartu anggota → panel detail anggota.</p>
+    <div class="team-grid">${M.map(m => `
+      <button class="member-card" data-act="mem" data-v="${m.id}">
+        <div class="member-photo-box">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}" loading="lazy">` : `<span>foto</span>`}</div>
+        <div class="member-name">${esc(m.name)}</div>
+        <div class="member-role">${esc(m.role)}</div>
+        <div class="member-edu">${esc(m.education)}</div>
+        <div class="member-social-circles">
+          <span class="social-circle" title="LinkedIn"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2"/></svg></span>
+          <span class="social-circle" title="GitHub"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg></span>
+          <span class="social-circle" title="Instagram / Web"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3"/></svg></span>
+        </div>
+      </button>
+    `).join('')}</div>`;
+  },
+
+  skills: () => {
+    const ms = M.filter(m => S.sm === 'all' || m.id === S.sm);
+    return `${H('Keahlian', 'Apa yang', 'kami kuasai', '.')}${chips('sm', mOpts, S.sm)}${chips('sc', [['all', 'Semua'], ['technical', 'Teknis'], ['soft', 'Non-teknis']], S.sc)}
+    <div class="skills-list">${ms.map(m => `<h3>${esc(m.name)}</h3>${S.sc !== 'soft' && m.skills.technical.length > 0 ? `<p class="kick">Kemampuan Teknis</p>${m.skills.technical.map(s => `<div>${esc(s.name)}: ${s.level}%<div class="bar" role="img" aria-label="${esc(s.name)} ${s.level} persen"><i data-w="${s.level}%" style="width:${s.level}%"></i></div></div>`).join('')}` : ''}${S.sc !== 'technical' && m.skills.soft.length > 0 ? `<p class="kick" style="margin-top:8px">Kemampuan Non-teknis</p><div class="row">${m.skills.soft.map(s => `<span class="chip">${esc(s.name)} ${s.level}%</span>`).join('')}</div>` : ''}`).join('')}</div>`;
+  },
+
+  exp: () => {
+    const TY = ['organisasi', 'kerja', 'magang', 'kegiatan'];
+    const it = M.filter(m => S.em === 'all' || m.id === S.em).flatMap(m => m.experience.filter(e => S.et === 'all' || e.type === S.et).map(e => ({ ...e, m })));
+    const ce = DATA.certificates.filter(c => S.em === 'all' || c.memberId === S.em);
+    return `${H('Pengalaman', 'Jejak', 'perjalanan', '.')}${chips('em', mOpts, S.em)}${chips('et', [['all', 'Semua jenis'], ...TY.map(t => [t, t])], S.et)}
+    <div class="tl">${it.map(e => `<div><span class="ty ${e.type}">${e.type}</span> ${esc(e.period)}<br><b>${esc(e.role)}</b>, ${esc(e.institution)} (${esc(e.m.name.split(' ')[0])})<br>${esc(e.description)}</div>`).join('') || '<p>Tidak ada pengalaman yang cocok.</p>'}</div>
+    <h3>Sertifikasi</h3><div class="grid">${ce.map(c => `<div class="card"><b>${esc(c.title)}</b>${esc(c.issuer)}, ${c.year}<br>${esc(mem(c.memberId).name)}<br><a href="${esc(c.verifyUrl)}" target="_blank" rel="noopener noreferrer">Verifikasi ↗</a></div>`).join('')}</div>`;
+  },
+
+  port: () => {
+    if (S.pd) {
+      const p = P.find(x => x.id === S.pd);
+      return `${back.replace('Kembali', 'Kembali ke daftar')}<h2 tabindex="-1" style="margin-top:10px">${esc(p.title)}</h2><p>${esc(p.description)}</p>
+      <p>${p.members.map(x => `<b>${esc(mem(x.id).name)}</b>: ${esc(x.role)}`).join('<br>')}</p><p>${p.techStack.map(t => `<span class="bdg">${esc(t)}</span>`).join('')}</p>
+      <div class="gal" data-lenis-prevent>${p.gallery.map(g => `<img src="${esc(g.src || ph(g.alt))}" alt="${esc(g.alt)}" loading="lazy" width="128" height="80" data-act="zoom" tabindex="0">`).join('')}</div>
+      <div class="row">${p.id === 'p3' ? `<a class="btn" href="https://beltwayofficepark.com/" target="_blank" rel="noopener noreferrer">Demo Langsung ↗</a>` : `<button class="btn" type="button" disabled style="opacity:0.55;cursor:not-allowed" title="Demo tidak tersedia">Demo Langsung ↗</button>`}<button class="btn" type="button" disabled style="opacity:0.55;cursor:not-allowed" title="Repositori tidak tersedia">Repositori ↗</button></div>`;
+    }
+    const list = P.filter(p => (S.pc === 'all' || p.category === S.pc) && (S.pt === 'all' || p.techStack.includes(S.pt)) && (S.pm === 'all' || p.members.some(x => x.id === S.pm)));
+    return `${H('Proyek', 'Karya', 'kami', '.')}<div class="row" style="align-items:end">${sel('pc', 'Kategori', [['all', 'Semua'], ...[...new Set(P.map(p => p.category))].map(c => [c, c])], S.pc)}${sel('pt', 'Teknologi', [['all', 'Semua'], ...uniqTech.map(t => [t, t])], S.pt)}${sel('pm', 'Anggota', [['all', 'Semua'], ...M.map(m => [m.id, m.name])], S.pm)}</div>
+    <div class="grid" aria-live="polite">${list.map(p => `<button class="card" data-act="proj" data-v="${p.id}"><b>${esc(p.title)}</b><small>${esc(p.category)}</small><br>${p.techStack.map(t => `<span class="bdg">${esc(t)}</span>`).join('')}</button>`).join('') || '<p>Tidak ada proyek yang cocok.</p>'}</div>`;
+  },
+
+  contact: () => `${H('Kontak', 'Ayo', 'ngobrol', '.')}<p>Email: <a href="mailto:${esc(T.email)}">${esc(T.email)}</a></p>
+   <form id="cf" novalidate><label for="c-nama">Nama</label><input id="c-nama" name="nama" aria-describedby="e-nama" autocomplete="name"><p class="er" id="e-nama" aria-live="polite"></p>
+   <label for="c-email">Email</label><input id="c-email" name="email" type="email" aria-describedby="e-email" autocomplete="email"><p class="er" id="e-email" aria-live="polite"></p>
+   <label for="c-pesan">Pesan</label><textarea id="c-pesan" name="pesan" rows="3" aria-describedby="e-pesan" data-lenis-prevent></textarea><p class="er" id="e-pesan" aria-live="polite"></p>
+   <button class="btn" type="submit">Kirim pesan</button><p id="st" role="status" aria-live="polite"></p></form>
+   <h3>Anggota</h3>${M.map(m => `<p>${esc(m.name)}: ${Object.entries(m.links).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${k} ↗</a>`).join(' · ')}</p>`).join('')}`,
+
+  team: () => `${H('Penutup', 'Terima kasih', 'sudah mampir', '.')}<div class="row">${BX.slice(0, 6).map((b, i) => `<button class="chip" data-act="go" data-v="${i}">${b[5]}</button>`).join('')}</div>
+   <div class="row">${STATS.map(([n, l]) => `<span class="bdg">${n} ${l}</span>`).join('')}</div><p>Semoga ada yang cocok untuk kolaborasi berikutnya.</p><button class="btn" data-act="top">Kembali ke atas</button>`
+};
+
+/* ================= 03 RENDER ================= */
+const boxes = [];
+let G, cur = null, busy = false, queue = null, fkey = null, inside = false;
+let activeTimeline = null;
+let idleTween = null;
+let activeLenis = null;
+
+BX.forEach((b, i) => {
+  const el = document.createElement('div');
+  el.className = `box ${b[2]} pile`;
+  el.id = 'b' + i;
+  const [l1, l2] = b[1].split('|');
+  el.innerHTML = `<div class="f bt"></div><div class="f wall"><div class="in" id="in-${b[0]}" tabindex="0" inert></div></div>
+   <div class="f side l"><i class="in2"></i></div><div class="f side r"><i class="in2"></i></div>
+   <div class="f tp pf"><i class="in2"></i><i class="tape"></i><i class="bl" style="left:8%;top:12%;background:#ffa6d0"></i><i class="bl" style="left:70%;top:14%;background:#8fd3ff"></i><i class="bl" style="left:12%;top:68%;background:#ffe14d"></i><i class="bl" style="left:44%;top:70%;background:#9fe8c4"></i><i class="bl" style="left:80%;top:66%;background:#c9b3ff"></i></div>
+   <div class="f front"><div class="door dl"><div class="df pf"><div class="t">${l1}<br>${l2 || ''}</div><div class="sm">Sekotak ide berani &amp; keseruan yang serius</div></div><div class="db"></div></div>
+   <div class="door dr"><div class="df pf"><div class="t">${l1}<br>${l2 || ''}</div><i class="face"></i><span class="tg">${b[3]}</span></div><div class="db"></div></div>
+   <button class="hit" data-act="go" data-v="${i}" aria-label="Buka kardus ${esc(b[5])}"></button></div>`;
+  st.insertBefore(el, cl);
+  boxes.push({ el, x: 0, top: 0, h: 0, w: 0 });
+  $('#in-' + b[0]).innerHTML = VIEW[b[0]]();
+});
+
+$('.meta').innerHTML = `${esc(T.name.toUpperCase())} · <b>7 KARDUS</b> · 2026`;
+$('#nl').innerHTML = BX.slice(0, 6).map((b, i) => `<button data-act="go" data-v="${i}">${b[5]}</button>`).join('');
+$('#mp').innerHTML = BX.slice(0, 6).map((b, i) => `<button data-act="go" data-v="${i}">${b[5]}</button>`).join('');
+$('#ft').innerHTML = `<span>${BX.map((b, i) => `<button data-act="go" data-v="${i}">${b[5]}</button>`).join(' ')}</span><span>${Object.entries(T.socials).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${k}</a>`).join(' · ')}</span><span>© 2026 ${esc(T.name)}. Hak cipta dilindungi.</span>`;
+
+/* ================= B. MOTION: ANIMASI UI DI DALAM PANEL ================= */
+function countMotion() {
+  document.querySelectorAll('.cu').forEach(e => {
+    const n = +e.dataset.n;
+    if (RM || !HAS_MOTION) { e.textContent = n; return; }
+    motionAnimate(0, n, {
+      duration: 0.9,
+      easing: "ease-out",
+      onUpdate: v => { e.textContent = Math.round(v); }
+    });
+  });
+}
+
+function initSkillBars(inEl) {
+  inEl.querySelectorAll('.bar i').forEach(bar => {
+    const targetW = bar.dataset.w || bar.style.width || '0%';
+    bar.dataset.w = targetW;
+    bar.style.width = '0%';
+    if (RM || !HAS_MOTION) {
+      bar.style.width = targetW;
+      return;
+    }
+    Motion.inView(bar, () => {
+      motionAnimate(bar, { width: ['0%', targetW] }, { duration: 0.6, easing: Motion.spring({ stiffness: 220, damping: 22 }) });
+    }, { root: inEl });
+  });
+}
+
+function attachCardInteractions(inEl) {
+  if (RM || !HAS_MOTION || !window.matchMedia('(hover: hover)').matches) return;
+  inEl.querySelectorAll('.card').forEach(card => {
+    Motion.hover(card, () => {
+      motionAnimate(card, { y: -3, boxShadow: '0 8px 16px rgba(27,24,19,0.18)' }, { duration: 0.2 });
+      return () => motionAnimate(card, { y: 0, boxShadow: '0 0px 0px rgba(0,0,0,0)' }, { duration: 0.2 });
+    });
+    Motion.press(card, () => {
+      motionAnimate(card, { scale: 0.98 }, { duration: 0.1 });
+      return () => motionAnimate(card, { scale: 1 }, { duration: 0.1 });
+    });
+  });
+}
+
+function animatePanelEntrance(inEl) {
+  if (!inEl) return;
+  if (!RM && HAS_MOTION) {
+    const children = inEl.querySelectorAll(':scope > *');
+    if (children.length) {
+      Motion.animate(children, { opacity: [0, 1], y: [16, 0] }, {
+        delay: Motion.stagger(0.06),
+        duration: 0.4,
+        easing: Motion.spring({ stiffness: 320, damping: 26 })
+      });
+    }
+  }
+  if (inEl.id === 'in-home') countMotion();
+  initSkillBars(inEl);
+  attachCardInteractions(inEl);
+}
+
+/* Transisi tampilan dalam panel (daftar ↔ detail, Kembali) */
+async function transitionView(k, newHtml, onDone) {
+  const inEl = $('#in-' + k);
+  if (!inEl) return;
+  if (RM || !HAS_MOTION) {
+    const y = inEl.scrollTop;
+    inEl.innerHTML = newHtml;
+    inEl.scrollTop = y;
+    onDone?.();
+    return;
+  }
+  const oldChildren = Array.from(inEl.children);
+  if (oldChildren.length) {
+    await motionAnimate(oldChildren, { opacity: [1, 0], x: [0, -12] }, { duration: 0.2, easing: "ease-in" });
+  }
+  inEl.innerHTML = newHtml;
+  const newChildren = Array.from(inEl.children);
+  if (newChildren.length) {
+    motionAnimate(newChildren, { opacity: [0, 1], x: [12, 0] }, {
+      delay: Motion.stagger(0.04),
+      duration: 0.35,
+      easing: Motion.spring({ stiffness: 320, damping: 25 })
+    });
+  }
+  attachCardInteractions(inEl);
+  onDone?.();
+}
+
+function render(k, withTransition = false) {
+  const inEl = $('#in-' + k), y = inEl.scrollTop;
+  const newHtml = VIEW[k]();
+
+  if (withTransition) {
+    transitionView(k, newHtml, () => {
+      inEl.scrollTop = y;
+      if (fkey) {
+        const f = inEl.querySelector(`[data-k="${fkey[0]}"]${fkey[1] != null ? `[data-v="${fkey[1]}"]` : ''}`);
+        f && f.focus();
+        fkey = null;
+      }
+    });
+    return;
+  }
+
+  // Jika dipicu filter grid, gunakan GSAP Flip untuk animasi tata letak
+  const gridContainer = inEl.querySelector('.grid, .tl, .skills-list');
+  if (gridContainer && HAS_GSAP && !RM) {
+    const items = gridContainer.querySelectorAll('.card, .tl > div, [data-act="mem"], [data-act="proj"], .skills-list > div');
+    const state = Flip.getState(items);
+    inEl.innerHTML = newHtml;
+    inEl.scrollTop = y;
+    const newItems = inEl.querySelectorAll('.card, .tl > div, [data-act="mem"], [data-act="proj"], .skills-list > div');
+    Flip.from(state, {
+      targets: newItems,
+      duration: 0.4,
+      ease: "power1.inOut",
+      stagger: 0.03,
+      onEnter: els => gsap.fromTo(els, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }),
+      onLeave: els => gsap.to(els, { opacity: 0, scale: 0.92, duration: 0.25, ease: "power2.in" })
+    });
+  } else {
+    inEl.innerHTML = newHtml;
+    inEl.scrollTop = y;
+  }
+
+  if (fkey) {
+    const f = inEl.querySelector(`[data-k="${fkey[0]}"]${fkey[1] != null ? `[data-v="${fkey[1]}"]` : ''}`);
+    f && f.focus();
+    fkey = null;
+  }
+  if (k === 'home') countMotion();
+  initSkillBars(inEl);
+  attachCardInteractions(inEl);
+}
+
+/* ================= C. LENIS: SMOOTH SCROLL ================= */
+function initLenis(inEl) {
+  if (RM || !HAS_LENIS) return;
+  destroyLenis();
+  activeLenis = new Lenis({
+    wrapper: inEl,
+    content: inEl,
+    lerp: 0.1,
+    smoothWheel: true,
+    syncTouch: false,
+    overscroll: false,
+    autoRaf: false
+  });
+}
+
+function destroyLenis() {
+  if (activeLenis) {
+    activeLenis.destroy();
+    activeLenis = null;
+  }
+}
+
+if (CAN_USE_MODERN) {
+  gsap.ticker.add((time) => {
+    if (activeLenis) activeLenis.raf(time * 1000);
+  });
+  gsap.ticker.lagSmoothing(0);
+}
+
+/* ================= 04 GEOMETRI & CAPIT ================= */
+function geo() {
+  const sw = st.clientWidth, sh = st.clientHeight, mob = sw < 768;
+  const W = mob ? Math.min(140, sw * .35) : Math.min(250, Math.max(160, sw * .165));
+  let k = mob ? 2.2 : 1.85;
+  if (W * k > sw - 16) k = (sw - 16) / W;
+  G = { sw, sh, W, H: W * (mob ? .7 : .6), D: W * (mob ? .66 : .62), k };
+}
+
+function put(i, m, dur) {
+  const b = boxes[i], g = G, p = BX[i][4], lift = m > 0, e = b.el.style;
+  let s = m ? g.k : 1, x = m ? g.sw / 2 : p[0] * g.sw, h = g.H * s, y = m ? 120 + h / 2 : p[1] * g.sh, w = g.W * s, d = g.D * s;
+  if (m === 2) {
+    const A = g.sw - (g.sw < 768 ? 16 : 48), B = g.sh - (g.sw < 768 ? 16 : 32);
+    d = Math.min(200, A * .15);
+    s = 1400 / (1400 + d / 2);
+    w = A / s;
+    h = B / s;
+    y = g.sh / 2;
+  }
+  e.setProperty('--dur', dur + 's');
+  e.setProperty('--W', w + 'px');
+  e.setProperty('--H', h + 'px');
+  e.setProperty('--D', d + 'px');
+  e.left = x + 'px';
+  e.top = y + 'px';
+  e.zIndex = lift ? (m === 2 ? 85 : 65) : Math.round(p[1] * 30);
+  e.transform = 'translate(-50%,-50%) ' + (m === 2 ? 'rotateX(0deg) rotateY(0deg) rotateZ(0deg)' : lift ? 'rotateX(-7deg) rotateY(-11deg) rotateZ(0deg)' : `rotateX(${p[2]}deg) rotateY(${p[3]}deg) rotateZ(${p[4]}deg)`);
+  Object.assign(b, { x, top: y - h / 2, h, w, d, rx: (m === 2 ? 0 : lift ? -7 : p[2]), ry: (m === 2 ? 0 : lift ? -11 : p[3]), rz: (m === 2 ? 0 : lift ? 0 : p[4]) });
+}
+
+function claw(x, top, w, h, dur, open) {
+  cl.style.setProperty('--cd', dur + 's');
+  cl.style.left = x + 'px';
+  cl.style.top = (top - 46) + 'px';
+  pr.style.width = w * (open ? 1.3 : 1.06) + 'px';
+  pr.style.setProperty('--ph', h * .3 + 16 + 'px');
+}
+
+const wait = ms => new Promise(r => setTimeout(r, RM ? 0 : ms));
+
+/* Setup Idle Capit dan Hover Kardus */
+function setupGSAPExtras() {
+  if (!CAN_USE_MODERN) return;
+  // A.7 Capit idle oscillation
+  idleTween = gsap.to(cl, {
+    rotation: 0.6,
+    transformOrigin: "center -200px",
+    duration: 2.4,
+    ease: "sine.inOut",
+    yoyo: true,
+    repeat: -1,
+    paused: true
+  });
+
+  // A.6 Hover kardus di tumpukan memakai quickTo
+  boxes.forEach(b => {
+    const quickY = gsap.quickTo(b.el, "y", { duration: 0.25, ease: "power2.out" });
+    b.el.addEventListener('mouseenter', () => {
+      if (b.el.classList.contains('pile')) quickY(-10);
+    });
+    b.el.addEventListener('mouseleave', () => {
+      quickY(0);
+    });
+  });
+}
+
+/* ================= A. GSAP: KOREOGRAFI ELEMEN UTAMA ================= */
+function selectModern(i) {
+  if (activeTimeline && activeTimeline.isActive()) {
+    queue = i;
+    return;
+  }
+  if (i === cur && i !== null) return;
+  busy = true;
+
+  const tl = gsap.timeline({
+    overwrite: "auto",
+    onStart: () => {
+      if (idleTween) idleTween.pause();
+    },
+    onComplete: () => {
+      busy = false;
+      activeTimeline = null;
+      if (queue !== null) {
+        const q = queue;
+        queue = null;
+        select(q);
+      } else if (cur === null && idleTween) {
+        idleTween.play();
+      }
+    }
+  });
+  activeTimeline = tl;
+
+  // Jika sedang berada di dalam kardus, keluar dulu
+  if (inside && cur !== null) {
+    const c = cur;
+    const bCur = boxes[c];
+    inside = false;
+    destroyLenis();
+    $('#back').hidden = true;
+
+    tl.to(st, { perspectiveOrigin: "50% 35%", duration: 0.9, ease: "claw" }, "zoomOut")
+      .to(bCur.el, {
+        "--W": (G.W * G.k) + "px",
+        "--H": (G.H * G.k) + "px",
+        "--D": (G.D * G.k) + "px",
+        left: G.sw / 2,
+        top: 120 + (G.H * G.k) / 2,
+        rotateX: -7,
+        rotateY: -11,
+        rotateZ: 0,
+        zIndex: 65,
+        duration: 0.9,
+        ease: "claw"
+      }, "zoomOut")
+      .to(cl, {
+        left: G.sw / 2,
+        top: (120 - 46),
+        duration: 0.9,
+        ease: "claw"
+      }, "zoomOut")
+      .to(boxes.filter((_, idx) => idx !== c).map(bx => bx.el), {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      }, "zoomOut")
+      .to(['.bg', '.pill', '.meta'], {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      }, "zoomOut")
+      .add(() => {
+        st.classList.remove('in-box');
+        bCur.el.classList.remove('inside');
+        boxes.forEach(b => { b.el.inert = false; b.el.classList.remove('gone'); });
+      });
+  }
+
+  // Jika ada kardus sebelumnya yang sedang terangkat/terbuka, kembalikan ke tumpukan
+  if (cur !== null) {
+    const prev = cur;
+    const o = boxes[prev];
+    const dl = o.el.querySelector('.dl');
+    const dr = o.el.querySelector('.dr');
+    const p = BX[prev][4];
+
+    tl.addLabel("lepas")
+      .to([dl, dr], {
+        rotateY: 0,
+        duration: 0.45,
+        ease: "power2.inOut"
+      }, "lepas")
+      .add(() => {
+        o.el.classList.remove('open');
+        $('#in-' + BX[prev][0]).inert = true;
+      })
+      .to(o.el, {
+        left: p[0] * G.sw,
+        top: p[1] * G.sh,
+        "--W": G.W + "px",
+        "--H": G.H + "px",
+        "--D": G.D + "px",
+        rotateX: p[2],
+        rotateY: p[3],
+        rotateZ: p[4],
+        zIndex: 60,
+        duration: 0.85,
+        ease: "claw"
+      })
+      .to(cl, {
+        left: p[0] * G.sw,
+        top: (p[1] * G.sh - (G.H / 2) - 46),
+        duration: 0.85,
+        ease: "claw"
+      }, "<")
+      .add(() => {
+        o.el.classList.add('pile');
+        put(prev, 0, 0);
+      })
+      .to(pr, {
+        width: G.W * 1.3,
+        duration: 0.24,
+        ease: "claw"
+      })
+      .set(o.el, { zIndex: Math.round(p[1] * 30) });
+  }
+
+  // Jika tujuan null (melepas semua)
+  if (i === null) {
+    cur = null;
+    tl.to(cl, {
+      left: G.sw / 2,
+      top: -90,
+      duration: 0.75,
+      ease: "claw"
+    });
+    document.querySelectorAll('.nl button,.mp button').forEach(b => {
+      b.classList.remove('on');
+      b.removeAttribute('aria-current');
+    });
+    return;
+  }
+
+  // Mengambil kardus baru i
+  const targetBox = boxes[i];
+  cur = i;
+  document.querySelectorAll('.nl button,.mp button').forEach((b, j) => {
+    const on = (+b.dataset.v) === i;
+    b.classList.toggle('on', on);
+    on ? b.setAttribute('aria-current', 'true') : b.removeAttribute('aria-current');
+  });
+
+  const dl = targetBox.el.querySelector('.dl');
+  const dr = targetBox.el.querySelector('.dr');
+
+  // Label: "ambil"
+  tl.addLabel("ambil")
+    .to(cl, {
+      left: targetBox.x,
+      top: (targetBox.top - 130 - 46),
+      duration: 0.75,
+      ease: "claw"
+    }, "ambil")
+    .to(cl, {
+      top: (targetBox.top - 46),
+      duration: 0.56,
+      ease: "claw"
+    })
+    .to(pr, {
+      width: targetBox.w * 1.06,
+      duration: 0.24,
+      ease: "power2.inOut"
+    });
+
+  // Label: "angkat"
+  tl.addLabel("angkat")
+    .add(() => {
+      targetBox.el.classList.remove('pile');
+      targetBox.el.style.zIndex = '65';
+    })
+    .to(targetBox.el, {
+      left: G.sw / 2,
+      top: 120 + (G.H * G.k) / 2,
+      "--W": (G.W * G.k) + "px",
+      "--H": (G.H * G.k) + "px",
+      "--D": (G.D * G.k) + "px",
+      rotateX: -7,
+      rotateY: -11,
+      rotateZ: 0,
+      zIndex: 65,
+      duration: 0.95,
+      ease: "claw"
+    }, "angkat")
+    .to(cl, {
+      left: G.sw / 2,
+      top: 120 - 46,
+      duration: 0.95,
+      ease: "claw"
+    }, "angkat")
+    .add(() => {
+      put(i, 1, 0);
+    });
+
+  // Label: "buka"
+  tl.addLabel("buka")
+    .set(targetBox.el, { zIndex: 80 }, "buka")
+    .to(dl, {
+      rotateY: -122,
+      duration: 0.75,
+      ease: "back.out(1.4)"
+    }, "buka")
+    .to(dr, {
+      rotateY: 122,
+      duration: 0.75,
+      ease: "back.out(1.4)"
+    }, "buka")
+    .add(() => {
+      targetBox.el.classList.add('open');
+      const w = $('#in-' + BX[i][0]);
+      w.inert = false;
+    });
+
+  // Label: "masuk"
+  const A = G.sw - (G.sw < 768 ? 16 : 48);
+  const B = G.sh - (G.sw < 768 ? 16 : 32);
+  const finalD = Math.min(200, A * .15);
+  const finalS = 1400 / (1400 + finalD / 2);
+  const finalW = A / finalS;
+  const finalH = B / finalS;
+
+  tl.addLabel("masuk")
+    .add(() => {
+      inside = true;
+      st.classList.add('in-box');
+      boxes.forEach((b, j) => {
+        if (j !== i) {
+          b.el.inert = true;
+        }
+      });
+      targetBox.el.classList.add('inside');
+    })
+    .to(st, {
+      perspectiveOrigin: "50% 50%",
+      duration: 0.9,
+      ease: "claw"
+    }, "masuk")
+    .to(targetBox.el, {
+      left: G.sw / 2,
+      top: G.sh / 2,
+      "--W": finalW + "px",
+      "--H": finalH + "px",
+      "--D": finalD + "px",
+      rotateX: 0,
+      rotateY: 0,
+      rotateZ: 0,
+      zIndex: 85,
+      duration: 0.9,
+      ease: "claw"
+    }, "masuk")
+    .to(cl, {
+      top: -260,
+      duration: 0.9,
+      ease: "claw"
+    }, "masuk")
+    .to(boxes.filter((_, idx) => idx !== i).map(bx => bx.el), {
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.05,
+      ease: "power2.out"
+    }, "masuk")
+    .to(['.bg', '.pill', '.meta'], {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.out"
+    }, "masuk")
+    .fromTo("#back", { opacity: 0, display: "block" }, {
+      opacity: 1,
+      duration: 0.4,
+      onStart: () => { $('#back').hidden = false; }
+    }, "masuk+=0.4")
+    .add(() => {
+      put(i, 2, 0);
+      const inEl = $('#in-' + BX[i][0]);
+      const h = $('h2', inEl);
+      h && h.focus({ preventScroll: true });
+      initLenis(inEl);
+      animatePanelEntrance(inEl);
+    });
+}
+
+/* ================= IMPLEMENTASI CADANGAN (FALLBACK CSS + SETTIMEOUT) ================= */
+async function selectFallback(i) {
+  if (busy) { queue = i; return; }
+  if (i === cur && i !== null) return;
+  busy = true;
+
+  if (inside) {
+    inside = false;
+    $('#back').hidden = true;
+    st.classList.remove('in-box');
+    st.style.perspectiveOrigin = '';
+    boxes.forEach(b => { b.el.inert = false; b.el.style.setProperty('--dur', '.6s'); b.el.classList.remove('gone'); });
+    boxes[cur].el.classList.remove('inside');
+    put(cur, 1, .9);
+    const b = boxes[cur];
+    claw(b.x, b.top, b.w, b.h, .9, false);
+    await wait(900);
+  }
+
+  if (cur !== null) {
+    const o = boxes[cur];
+    o.el.classList.remove('open');
+    $('#in-' + BX[cur][0]).inert = true;
+    await wait(450);
+    o.el.classList.add('pile');
+    put(cur, 0, .85);
+    o.el.style.zIndex = 60;
+    claw(o.x, o.top, o.w, o.h, .85, false);
+    await wait(850);
+    const p = BX[cur][4];
+    o.el.style.zIndex = Math.round(p[1] * 30);
+    claw(o.x, o.top, o.w, o.h, .24, true);
+    await wait(240);
+  }
+
+  if (i === null) {
+    cur = null;
+    claw(G.sw / 2, -90, G.W, G.H, .75, true);
+    document.querySelectorAll('.nl button,.mp button').forEach(b => {
+      b.classList.remove('on');
+      b.removeAttribute('aria-current');
+    });
+    await wait(750);
+    busy = false;
+    return;
+  }
+
+  const t = boxes[i];
+  cur = i;
+  claw(t.x, t.top - 130, t.w, t.h, .75, true);
+  await wait(750);
+  claw(t.x, t.top, t.w, t.h, .56, true);
+  await wait(560);
+  claw(t.x, t.top, t.w, t.h, .24, false);
+  await wait(240);
+
+  t.el.classList.remove('pile');
+  t.el.style.zIndex = 65;
+  put(i, 1, .95);
+  claw(boxes[i].x, boxes[i].top, boxes[i].w, boxes[i].h, .95, false);
+  await wait(950);
+
+  t.el.classList.add('open');
+  t.el.style.zIndex = 80;
+  const w = $('#in-' + BX[i][0]);
+  w.inert = false;
+  document.querySelectorAll('.nl button,.mp button').forEach((b, j) => {
+    const on = (+b.dataset.v) === i;
+    b.classList.toggle('on', on);
+    on ? b.setAttribute('aria-current', 'true') : b.removeAttribute('aria-current');
+  });
+  await wait(750);
+
+  inside = true;
+  st.classList.add('in-box');
+  st.style.perspectiveOrigin = '50% 50%';
+  boxes.forEach((b, j) => {
+    if (j !== i) {
+      b.el.style.setProperty('--dur', '.6s');
+      b.el.classList.add('gone');
+      b.el.inert = true;
+    }
+  });
+  boxes[i].el.classList.add('inside');
+  put(i, 2, .9);
+  claw(G.sw / 2, -260, G.W, G.H, .9, false);
+  $('#back').hidden = false;
+  await wait(900);
+
+  const h = $('h2', w);
+  h && h.focus({ preventScroll: true });
+  busy = false;
+  if (queue !== null) {
+    const q = queue;
+    queue = null;
+    select(q);
+  }
+}
+
+/* Dispatcher pemilihan: rute modern vs rute cadangan */
+function select(i) {
+  if (CAN_USE_MODERN) {
+    selectModern(i);
+  } else {
+    selectFallback(i);
+  }
+}
+
+/* ================= 08 INTERAKSI & EVENT LISTENERS ================= */
+const ACT = {
+  release: () => select(null),
+  go: v => { closeMenu(); S.ab = null; S.pd = null; select(+v); },
+  f: (v, a) => {
+    S[a.dataset.k] = v;
+    fkey = [a.dataset.k, v];
+    render(BX[cur][0]);
+  },
+  mem: v => {
+    S.ab = v;
+    render('about', true);
+    $('h2', $('#in-about'))?.focus();
+  },
+  proj: v => {
+    S.pd = v;
+    render('port', true);
+    $('h2', $('#in-port'))?.focus();
+  },
+  back: () => {
+    const k = BX[cur][0];
+    S.ab = null;
+    S.pd = null;
+    render(k, true);
+    const c = $('.card', $('#in-' + k));
+    c && c.focus();
+  },
+  zoom: (v, a) => {
+    openLightbox(a.src, a.alt);
+  },
+  top: () => {
+    if (activeLenis) {
+      activeLenis.scrollTo(0, { duration: 0.8 });
+    } else {
+      document.querySelectorAll('.in').forEach(e => e.scrollTo({ top: 0, behavior: RM ? 'auto' : 'smooth' }));
+      scrollTo({ top: 0, behavior: RM ? 'auto' : 'smooth' });
+    }
+    st.focus({ preventScroll: true });
+  }
+};
+
+function openLightbox(src, alt) {
+  const lb = $('#lb');
+  $('#lbi').src = src;
+  $('#lbi').alt = alt;
+  lb.showModal();
+  if (!RM && HAS_MOTION) {
+    motionAnimate(lb, { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.25, easing: Motion.spring({ stiffness: 350, damping: 25 }) });
+  }
+}
+
+function closeLightbox() {
+  const lb = $('#lb');
+  if (!lb.open) return;
+  if (!RM && HAS_MOTION) {
+    motionAnimate(lb, { opacity: [1, 0], scale: [1, 0.96] }, { duration: 0.2, easing: "ease-in" }).then(() => lb.close());
+  } else {
+    lb.close();
+  }
+}
+
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]');
+  if (!a || a.tagName === 'SELECT') return;
+  ACT[a.dataset.act]?.(a.dataset.v, a, e);
+});
+
+document.addEventListener('change', e => {
+  const a = e.target;
+  if (a.dataset.act === 'fs') {
+    S[a.dataset.k] = a.value;
+    fkey = [a.dataset.k, null];
+    render(BX[cur][0]);
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.dataset?.act === 'zoom') e.target.click();
+  if (e.key === 'Escape') {
+    if ($('#lb').open) {
+      closeLightbox();
+      return;
+    }
+    if ($('#mp').classList.contains('show')) {
+      closeMenu();
+      return;
+    }
+    select(cur === 0 ? null : 0);
+  }
+});
+
+$('#lb').addEventListener('click', closeLightbox);
+const closeMenu = () => { $('#mp').classList.remove('show'); $('#ham').setAttribute('aria-expanded', 'false'); };
+$('#ham').onclick = () => { const o = $('#mp').classList.toggle('show'); $('#ham').setAttribute('aria-expanded', o); };
+document.addEventListener('pointerdown', e => { if (!e.target.closest('#mp,#ham')) closeMenu(); });
+
+/* Scroll detection untuk tombol "↑ Ke atas" */
+document.addEventListener('scroll', () => {
+  const s = scrollY > 300 || [...document.querySelectorAll('.in')].some(e => e.scrollTop > 150);
+  const topBtn = $('#top');
+  if (!topBtn) return;
+  if (!RM && HAS_MOTION) {
+    if (s && topBtn.style.display !== 'block') {
+      topBtn.style.display = 'block';
+      motionAnimate(topBtn, { opacity: [0, 1], y: [10, 0] }, { duration: 0.25, easing: Motion.spring() });
+    } else if (!s && topBtn.style.display === 'block') {
+      motionAnimate(topBtn, { opacity: [1, 0], y: [0, 10] }, { duration: 0.2 }).then(() => { topBtn.style.display = 'none'; });
+    }
+  } else {
+    topBtn.classList.toggle('show', s);
+  }
+}, true);
+
+/* Form submit */
+document.addEventListener('submit', e => {
+  const f = e.target;
+  if (f.id !== 'cf') return;
+  e.preventDefault();
+  let ok = true;
+
+  const chk = (n, bad) => {
+    const el = f.elements[n], m = bad(el.value.trim());
+    const errEl = $('#e-' + n);
+    errEl.textContent = m;
+    el.setAttribute('aria-invalid', !!m);
+    if (m) {
+      ok = false;
+      if (!RM && HAS_MOTION) {
+        motionAnimate(errEl, { x: [0, -4, 4, 0] }, { duration: 0.3 });
+      }
+    }
+  };
+
+  chk('nama', v => v ? '' : 'Nama wajib diisi.');
+  chk('email', v => !v ? 'Email wajib diisi.' : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Format email belum benar.');
+  chk('pesan', v => v.length < 10 ? 'Pesan minimal 10 karakter.' : '');
+
+  const s = $('#st');
+  if (!ok) {
+    f.querySelector('[aria-invalid=true]')?.focus();
+    s.textContent = '';
+    return;
+  }
+
+  s.innerHTML = `Terima kasih, pesanmu tercatat (simulasi, belum terkirim ke server). <a href="mailto:${esc(T.email)}?subject=${encodeURIComponent('Pesan dari ' + f.nama.value)}&body=${encodeURIComponent(f.pesan.value)}">Kirim lewat aplikasi email</a>`;
+  if (!RM && HAS_MOTION) {
+    motionAnimate(s, { opacity: [0, 1], y: [-6, 0] }, { duration: 0.35, easing: Motion.spring({ stiffness: 300, damping: 20 }) });
+  }
+  f.reset();
+});
+
+/* ================= 09 INISIALISASI & RESIZE ================= */
+function layout() {
+  geo();
+  st.style.setProperty('--dur', '0s');
+  boxes.forEach((b, i) => {
+    b.el.style.transition = 'none';
+    put(i, i === cur && !b.el.classList.contains('pile') ? (inside ? 2 : 1) : 0, 0);
+  });
+
+  if (cur === null || boxes[cur].el.classList.contains('pile')) {
+    claw(G.sw / 2, -90, G.W, G.H, 0, true);
+  } else if (inside) {
+    claw(G.sw / 2, -260, G.W, G.H, 0, false);
+  } else {
+    const b = boxes[cur];
+    claw(b.x, b.top, b.w, b.h, 0, false);
+  }
+
+  requestAnimationFrame(() => boxes.forEach(b => b.el.style.transition = ''));
+}
+
+function handleResize() {
+  if (activeTimeline && activeTimeline.isActive()) {
+    activeTimeline.kill();
+    activeTimeline = null;
+    busy = false;
+  }
+  layout();
+}
+
+let rt;
+addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(handleResize, 120); });
+addEventListener('orientationchange', () => setTimeout(handleResize, 200));
+
+layout();
+setupGSAPExtras();
+setTimeout(() => select(0), 500);
+</script>
+</body>
+</html>
