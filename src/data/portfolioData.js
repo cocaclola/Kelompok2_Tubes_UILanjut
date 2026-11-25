@@ -13,6 +13,7 @@ export const PORTFOLIO_DATA = {
     {
       id: "m1",
       name: "Rama Dwi Prasetya",
+      nim: "102042300142",
       role: "Web & Full-Stack Developer",
       photo: "asset/PasFoto_Rama.png",
       bio: "Mahasiswa aktif semester 7 Program Studi Sistem Informasi di Telkom University Kampus Jakarta. Saya memiliki rasa ingin tahu yang tinggi serta semangat belajar yang kuat terhadap perkembangan teknologi informasi. Dengan sikap disiplin, tanggung jawab, dan kemampuan komunikasi yang baik, saya mampu bekerja secara efektif, baik dalam tim maupun secara mandiri. Saya juga memiliki ketertarikan besar dalam pengembangan sistem berbasis web, analisis data, serta manajemen proyek teknologi informasi. Selain itu, saya berkomitmen untuk terus mengasah keterampilan teknis, memperluas wawasan, dan meningkatkan kemampuan berpikir kritis guna mempersiapkan diri menghadapi tantangan dunia kerja yang dinamis dan kompetitif di era digital.",
@@ -54,6 +55,7 @@ export const PORTFOLIO_DATA = {
     {
       id: "m2",
       name: "Flora Syifa",
+      nim: "102042300122",
       role: "Front-end Developer & UI/UX Designer",
       photo: "",
       bio: "Mahasiswi Sistem Informasi Telkom University Jakarta yang berfokus pada perancangan antarmuka, pengalaman pengguna, dan pengembangan front-end.",
@@ -76,6 +78,7 @@ export const PORTFOLIO_DATA = {
     {
       id: "m3",
       name: "Alvian Yusuf Nawawi",
+      nim: "102042300129",
       role: "Back-end Developer & System Analyst",
       photo: "",
       bio: "Mahasiswa Sistem Informasi Telkom University Jakarta yang berfokus pada arsitektur sistem backend, perancangan basis data, dan integrasi API.",

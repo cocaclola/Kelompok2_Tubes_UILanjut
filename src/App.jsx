@@ -102,27 +102,6 @@ export default function App() {
       />
 
       <footer id="ft">
-        <span>
-          {BOX_CONFIGS.map((b, i) => (
-            <button
-              key={b.id}
-              type="button"
-              onClick={() => handleSelectBox(i)}
-            >
-              {b.title}
-            </button>
-          ))}
-        </span>
-        <span>
-          {Object.entries(PORTFOLIO_DATA.team.socials).map(([k, v], idx, arr) => (
-            <React.Fragment key={k}>
-              <a href={v} target="_blank" rel="noopener noreferrer">
-                {k}
-              </a>
-              {idx < arr.length - 1 ? ' · ' : ''}
-            </React.Fragment>
-          ))}
-        </span>
         <span>© 2026 {PORTFOLIO_DATA.team.name}. Hak cipta dilindungi.</span>
       </footer>
 
