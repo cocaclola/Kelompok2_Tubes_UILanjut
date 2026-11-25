@@ -49,7 +49,7 @@ Website memiliki fungsi utama sebagai berikut:
 - Fitur navigasi yang memudahkan pengunjung mengakses setiap bagian website.
 
 ### B. Teknis
-- Website dikembangkan menggunakan teknologi HTML, CSS, dan JavaScript atau framework yang disepakati kelompok.
+- Website dikembangkan menggunakan framework React.js.
 - Menggunakan struktur kode yang terorganisasi dan mudah dipelihara.
 - Menggunakan Git dan GitHub untuk version control serta kolaborasi pengembangan.
 - Website dapat di-deploy ke layanan hosting agar bisa diakses secara online.
